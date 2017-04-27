@@ -1,5 +1,5 @@
-Dependencies/libjingle_peerconnection/Headers/*
-Dependencies/libjingle_peerconnection/libWebRTC.a
+#Dependencies/libjingle_peerconnection/Headers/*
+#Dependencies/libjingle_peerconnection/libWebRTC.a
 
 Build
 

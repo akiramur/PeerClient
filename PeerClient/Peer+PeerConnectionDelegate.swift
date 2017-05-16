@@ -13,9 +13,19 @@ extension Peer: PeerConnectionDelegate {
 
     // MARK: PeerConnectionDelegate
 
-    public func connection(connection: PeerConnection, shouldSendMessage message: [String: Any]) {
-        let data = try? JSONSerialization.data(withJSONObject: message, options: [])
-        self.webSocket?.send(data: data)
+    public func connection(connection: PeerConnection, shouldSendMessage message: [String: Any], type: String) {
+    
+        var topic = MqttClient.TopicType.offer
+        if type == "offer" {
+            topic = .offer
+        }
+        else if type == "answer" {
+            topic = .answer
+        }
+        else {
+            print("ERROR: type is not offer or answer !!! \(type)")
+        }
+        self.mqttClient?.publish(to: connection.peerId, topic: topic, dictionary: message)
     }
 
 

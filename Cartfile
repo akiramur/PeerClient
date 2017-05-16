@@ -1,1 +1,3 @@
-github "facebook/SocketRocket" ~> 0.4.2
+github "robbiehanson/CocoaAsyncSocket" "master"
+github "emqtt/CocoaMQTT" "master"
+github "radex/SwiftyTimer"

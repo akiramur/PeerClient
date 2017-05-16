@@ -128,7 +128,7 @@ extension PeerConnection: RTCPeerConnectionDelegate {
         print("sendCandidateMessage: \(candidate)")
 
         DispatchQueue.main.async {
-            self.delegate?.connection(connection: self, shouldSendMessage: message)
+            self.delegate?.connection(connection: self, shouldSendMessage: message, type: peerConnection.localDescription.type)
         }
     }
     

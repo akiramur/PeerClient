@@ -26,6 +26,12 @@
 		2A5E8DB31EB074BF00A33AEC /* PeerIceServerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E8DB21EB074BF00A33AEC /* PeerIceServerOptions.swift */; };
 		2A5E8DB61EB1805900A33AEC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2A5E8DB41EB1805900A33AEC /* LICENSE */; };
 		2A5E8DB71EB1805900A33AEC /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E8DB51EB1805900A33AEC /* README.md */; };
+		2A6630591ECAE9E300F68629 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6630561ECAE9E300F68629 /* CocoaAsyncSocket.framework */; };
+		2A66305A1ECAE9E300F68629 /* CocoaMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6630571ECAE9E300F68629 /* CocoaMQTT.framework */; };
+		2A66305B1ECAE9E300F68629 /* SwiftyTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6630581ECAE9E300F68629 /* SwiftyTimer.framework */; };
+		2A66305D1ECAEA0900F68629 /* Peer+MqttClientDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A66305C1ECAEA0900F68629 /* Peer+MqttClientDelegate.swift */; };
+		2A6630601ECAEA2600F68629 /* MqttClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A66305E1ECAEA2600F68629 /* MqttClient.swift */; };
+		2A6630611ECAEA2600F68629 /* MqttClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A66305F1ECAEA2600F68629 /* MqttClientOptions.swift */; };
 		2A8A9EEC1E8B76D6005682E2 /* PeerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8A9EEB1E8B76D6005682E2 /* PeerOptions.swift */; };
 		2A9AE1661E8DEF47008D6BE7 /* Reliable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9AE1651E8DEF47008D6BE7 /* Reliable.swift */; };
 		2AA432321E5D6D6D0052BAD0 /* RTCAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA4320D1E5D6D6D0052BAD0 /* RTCAudioSource.h */; };
@@ -60,7 +66,6 @@
 		2AA4324F1E5D6D6D0052BAD0 /* RTCVideoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA4322A1E5D6D6D0052BAD0 /* RTCVideoTrack.h */; };
 		2AA432501E5D6D6D0052BAD0 /* libWebRTC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AA4322B1E5D6D6D0052BAD0 /* libWebRTC.a */; };
 		2AA7010E1E78D8BE00DFBEF0 /* DataConnection+RTCDataChannelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA7010D1E78D8BE00DFBEF0 /* DataConnection+RTCDataChannelDelegate.swift */; };
-		2AA701101E78D9A500DFBEF0 /* Peer+PeerSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA7010F1E78D9A500DFBEF0 /* Peer+PeerSocketDelegate.swift */; };
 		2AA701121E78DA1700DFBEF0 /* Peer+PeerConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA701111E78DA1700DFBEF0 /* Peer+PeerConnectionDelegate.swift */; };
 		2AA701F91E7B81D400DFBEF0 /* PeerConnectionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA701F81E7B81D400DFBEF0 /* PeerConnectionOptions.swift */; };
 		2AABB9091E54057300289386 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AABB9081E54057300289386 /* VideoToolbox.framework */; };
@@ -68,7 +73,6 @@
 		2AB628CB1E727EE500BF5993 /* DataConnection+RTCPeerConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB628CA1E727EE500BF5993 /* DataConnection+RTCPeerConnectionDelegate.swift */; };
 		2AB628CD1E7280CD00BF5993 /* MediaConnection+RTCPeerConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB628CC1E7280CD00BF5993 /* MediaConnection+RTCPeerConnectionDelegate.swift */; };
 		2AB628D71E72B81600BF5993 /* PeerConnection+RTCPeerConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB628D61E72B81600BF5993 /* PeerConnection+RTCPeerConnectionDelegate.swift */; };
-		2AD19B361E9372A3002D6BA0 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD19B351E9372A3002D6BA0 /* SocketRocket.framework */; };
 		2AD75EC81E52A78D00DEAFF8 /* PeerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD75EBE1E52A78D00DEAFF8 /* PeerClient.framework */; };
 		2AD75ECD1E52A78D00DEAFF8 /* PeerClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75ECC1E52A78D00DEAFF8 /* PeerClientTests.swift */; };
 		2AD75ECF1E52A78D00DEAFF8 /* PeerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AD75EC11E52A78D00DEAFF8 /* PeerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -80,7 +84,6 @@
 		2AD75EEF1E52A82200DEAFF8 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75EDF1E52A82100DEAFF8 /* Peer.swift */; };
 		2AD75EF01E52A82200DEAFF8 /* PeerConnectionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75EE01E52A82100DEAFF8 /* PeerConnectionFactory.swift */; };
 		2AD75EF11E52A82200DEAFF8 /* SdpDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75EE11E52A82100DEAFF8 /* SdpDispatcher.swift */; };
-		2AD75EF21E52A82200DEAFF8 /* PeerSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75EE21E52A82100DEAFF8 /* PeerSocket.swift */; };
 		2AD75EF31E52A82200DEAFF8 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75EE31E52A82100DEAFF8 /* Utility.swift */; };
 		2AD75EF41E52A82200DEAFF8 /* VideoTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD75EE41E52A82100DEAFF8 /* VideoTrack.swift */; };
 		2AD75EFA1E52A83700DEAFF8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD75EF91E52A83700DEAFF8 /* Foundation.framework */; };
@@ -117,6 +120,12 @@
 		2A5E8DB21EB074BF00A33AEC /* PeerIceServerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerIceServerOptions.swift; sourceTree = "<group>"; };
 		2A5E8DB41EB1805900A33AEC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		2A5E8DB51EB1805900A33AEC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		2A6630561ECAE9E300F68629 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/iOS/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
+		2A6630571ECAE9E300F68629 /* CocoaMQTT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaMQTT.framework; path = Carthage/Build/iOS/CocoaMQTT.framework; sourceTree = "<group>"; };
+		2A6630581ECAE9E300F68629 /* SwiftyTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyTimer.framework; path = Carthage/Build/iOS/SwiftyTimer.framework; sourceTree = "<group>"; };
+		2A66305C1ECAEA0900F68629 /* Peer+MqttClientDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Peer+MqttClientDelegate.swift"; sourceTree = "<group>"; };
+		2A66305E1ECAEA2600F68629 /* MqttClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MqttClient.swift; sourceTree = "<group>"; };
+		2A66305F1ECAEA2600F68629 /* MqttClientOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MqttClientOptions.swift; sourceTree = "<group>"; };
 		2A8A9EEB1E8B76D6005682E2 /* PeerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerOptions.swift; sourceTree = "<group>"; };
 		2A9AE1651E8DEF47008D6BE7 /* Reliable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reliable.swift; sourceTree = "<group>"; };
 		2AA4320D1E5D6D6D0052BAD0 /* RTCAudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTCAudioSource.h; sourceTree = "<group>"; };
@@ -152,7 +161,6 @@
 		2AA4322B1E5D6D6D0052BAD0 /* libWebRTC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWebRTC.a; sourceTree = "<group>"; };
 		2AA4322C1E5D6D6D0052BAD0 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		2AA7010D1E78D8BE00DFBEF0 /* DataConnection+RTCDataChannelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataConnection+RTCDataChannelDelegate.swift"; sourceTree = "<group>"; };
-		2AA7010F1E78D9A500DFBEF0 /* Peer+PeerSocketDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Peer+PeerSocketDelegate.swift"; sourceTree = "<group>"; };
 		2AA701111E78DA1700DFBEF0 /* Peer+PeerConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Peer+PeerConnectionDelegate.swift"; sourceTree = "<group>"; };
 		2AA701F81E7B81D400DFBEF0 /* PeerConnectionOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerConnectionOptions.swift; sourceTree = "<group>"; };
 		2AABB9081E54057300289386 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
@@ -160,7 +168,6 @@
 		2AB628CA1E727EE500BF5993 /* DataConnection+RTCPeerConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataConnection+RTCPeerConnectionDelegate.swift"; sourceTree = "<group>"; };
 		2AB628CC1E7280CD00BF5993 /* MediaConnection+RTCPeerConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MediaConnection+RTCPeerConnectionDelegate.swift"; sourceTree = "<group>"; };
 		2AB628D61E72B81600BF5993 /* PeerConnection+RTCPeerConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeerConnection+RTCPeerConnectionDelegate.swift"; sourceTree = "<group>"; };
-		2AD19B351E9372A3002D6BA0 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
 		2AD75EBE1E52A78D00DEAFF8 /* PeerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PeerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AD75EC11E52A78D00DEAFF8 /* PeerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeerClient.h; sourceTree = "<group>"; };
 		2AD75EC21E52A78D00DEAFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,7 +182,6 @@
 		2AD75EDF1E52A82100DEAFF8 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
 		2AD75EE01E52A82100DEAFF8 /* PeerConnectionFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerConnectionFactory.swift; sourceTree = "<group>"; };
 		2AD75EE11E52A82100DEAFF8 /* SdpDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SdpDispatcher.swift; sourceTree = "<group>"; };
-		2AD75EE21E52A82100DEAFF8 /* PeerSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerSocket.swift; sourceTree = "<group>"; };
 		2AD75EE31E52A82100DEAFF8 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		2AD75EE41E52A82100DEAFF8 /* VideoTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTrack.swift; sourceTree = "<group>"; };
 		2AD75EF91E52A83700DEAFF8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -201,7 +207,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AD19B361E9372A3002D6BA0 /* SocketRocket.framework in Frameworks */,
+				2A6630591ECAE9E300F68629 /* CocoaAsyncSocket.framework in Frameworks */,
+				2A66305A1ECAE9E300F68629 /* CocoaMQTT.framework in Frameworks */,
+				2A66305B1ECAE9E300F68629 /* SwiftyTimer.framework in Frameworks */,
 				2AA432501E5D6D6D0052BAD0 /* libWebRTC.a in Frameworks */,
 				2AD75EFA1E52A83700DEAFF8 /* Foundation.framework in Frameworks */,
 				2AD75EFC1E52A84800DEAFF8 /* libsqlite3.tbd in Frameworks */,
@@ -312,11 +320,13 @@
 		2AA701131E78DAC000DFBEF0 /* Peer */ = {
 			isa = PBXGroup;
 			children = (
+				2A66305E1ECAEA2600F68629 /* MqttClient.swift */,
+				2A66305F1ECAEA2600F68629 /* MqttClientOptions.swift */,
 				2AD75EDF1E52A82100DEAFF8 /* Peer.swift */,
+				2A66305C1ECAEA0900F68629 /* Peer+MqttClientDelegate.swift */,
 				2AA701111E78DA1700DFBEF0 /* Peer+PeerConnectionDelegate.swift */,
-				2AA7010F1E78D9A500DFBEF0 /* Peer+PeerSocketDelegate.swift */,
-				2A8A9EEB1E8B76D6005682E2 /* PeerOptions.swift */,
 				2A5E8DB21EB074BF00A33AEC /* PeerIceServerOptions.swift */,
+				2A8A9EEB1E8B76D6005682E2 /* PeerOptions.swift */,
 			);
 			name = Peer;
 			sourceTree = "<group>";
@@ -352,7 +362,6 @@
 				2A4427C11E8E2E1600EAD129 /* MediaStream.swift */,
 				2AA701131E78DAC000DFBEF0 /* Peer */,
 				2AD75EC11E52A78D00DEAFF8 /* PeerClient.h */,
-				2AD75EE21E52A82100DEAFF8 /* PeerSocket.swift */,
 				2A9AE1651E8DEF47008D6BE7 /* Reliable.swift */,
 				2AD75EE31E52A82100DEAFF8 /* Utility.swift */,
 				2AD75EE41E52A82100DEAFF8 /* VideoTrack.swift */,
@@ -372,7 +381,9 @@
 		2AD75EF81E52A83700DEAFF8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2AD19B351E9372A3002D6BA0 /* SocketRocket.framework */,
+				2A6630561ECAE9E300F68629 /* CocoaAsyncSocket.framework */,
+				2A6630571ECAE9E300F68629 /* CocoaMQTT.framework */,
+				2A6630581ECAE9E300F68629 /* SwiftyTimer.framework */,
 				2AABB9081E54057300289386 /* VideoToolbox.framework */,
 				2AD75F171E52A8F200DEAFF8 /* libc++.tbd */,
 				2AD75F151E52A8E400DEAFF8 /* libicucore.tbd */,
@@ -562,10 +573,10 @@
 				2A9AE1661E8DEF47008D6BE7 /* Reliable.swift in Sources */,
 				2A8A9EEC1E8B76D6005682E2 /* PeerOptions.swift in Sources */,
 				2AB628D71E72B81600BF5993 /* PeerConnection+RTCPeerConnectionDelegate.swift in Sources */,
+				2A6630611ECAEA2600F68629 /* MqttClientOptions.swift in Sources */,
 				2AD75EF41E52A82200DEAFF8 /* VideoTrack.swift in Sources */,
 				2AD75EF31E52A82200DEAFF8 /* Utility.swift in Sources */,
 				2AD75EEE1E52A82200DEAFF8 /* MediaConnection.swift in Sources */,
-				2AD75EF21E52A82200DEAFF8 /* PeerSocket.swift in Sources */,
 				2AA7010E1E78D8BE00DFBEF0 /* DataConnection+RTCDataChannelDelegate.swift in Sources */,
 				2AB628C71E7261CF00BF5993 /* Negotiator.swift in Sources */,
 				2A4427C21E8E2E1600EAD129 /* MediaStream.swift in Sources */,
@@ -575,6 +586,8 @@
 				2AD75EEA1E52A82100DEAFF8 /* PeerConnection.swift in Sources */,
 				2AD75EF01E52A82200DEAFF8 /* PeerConnectionFactory.swift in Sources */,
 				2AD75EED1E52A82200DEAFF8 /* EAGLVideoView.swift in Sources */,
+				2A66305D1ECAEA0900F68629 /* Peer+MqttClientDelegate.swift in Sources */,
+				2A6630601ECAEA2600F68629 /* MqttClient.swift in Sources */,
 				2AA701121E78DA1700DFBEF0 /* Peer+PeerConnectionDelegate.swift in Sources */,
 				2AD75EF11E52A82200DEAFF8 /* SdpDispatcher.swift in Sources */,
 				2AA701F91E7B81D400DFBEF0 /* PeerConnectionOptions.swift in Sources */,
@@ -583,7 +596,6 @@
 				2AB628CD1E7280CD00BF5993 /* MediaConnection+RTCPeerConnectionDelegate.swift in Sources */,
 				2A5E8DB31EB074BF00A33AEC /* PeerIceServerOptions.swift in Sources */,
 				2AD75EEB1E52A82200DEAFF8 /* PeerConnectionStore.swift in Sources */,
-				2AA701101E78D9A500DFBEF0 /* Peer+PeerSocketDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import Foundation
 import libjingle_peerconnection
 
 public protocol PeerConnectionDelegate {
-    func connection(connection: PeerConnection, shouldSendMessage message: [String: Any])   // TODO: replace this with block?
+    func connection(connection: PeerConnection, shouldSendMessage message: [String: Any], type: String)
     func connection(connection: PeerConnection, didReceiveRemoteStream stream: RTCMediaStream?)
     func connection(connection: PeerConnection, didClose error: Error?)
 
@@ -172,6 +172,7 @@ public class PeerConnection: NSObject {
         }
         print("TYPE: \(type)")
 
+        // "OFFER", "ANSWER", "CANDIDATE"
         switch type {
         case "ANSWER":
             if let browser = payload["browser"] as? String {
@@ -184,7 +185,7 @@ public class PeerConnection: NSObject {
                     switch result {
                     case let .success(message):
                         if let sself = self {
-                            sself.delegate?.connection(connection: sself, shouldSendMessage: message)
+                            sself.delegate?.connection(connection: sself, shouldSendMessage: message, type: "offer")
                         }
 
                     case let .failure(error):

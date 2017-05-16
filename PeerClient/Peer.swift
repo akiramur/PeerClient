@@ -17,7 +17,7 @@ public enum Result<T, Error> {
 
 enum PeerError: Error {
     case peerDisconnected
-    case socketClosed
+    case mqttClientDisconnected
     case invalidState
     case invalidOptions
     case noLocalStreamAvailable
@@ -29,7 +29,6 @@ enum PeerError: Error {
 
 public protocol PeerDelegate {
     
-    func peer(_ peer: Peer, didOpen peerId: String?) // TODO: change method name
     func peer(_ peer: Peer, didClose peerId: String?)
 
     func peer(_ peer: Peer, didReceiveConnection connection: PeerConnection)
@@ -39,13 +38,14 @@ public protocol PeerDelegate {
     func peer(_ peer: Peer, didReceiveError error: Error?)
 
     func peer(_ peer: Peer, didReceiveData data: Data)
+
+    func peer(_ peer: Peer, didUpdatePeerIds peerIds: [String])
 }
 
 public class Peer {
-    
-    var keepAliveTimer: Timer?
 
-    var webSocket: PeerSocket?
+    var mqttClient: MqttClient?
+
     public var delegate: PeerDelegate?
 
     // PeerJS port
@@ -55,8 +55,6 @@ public class Peer {
     
     public private(set) var peerId: String?
     var lastServerId: String?
-
-    let token: String
 
     var options: PeerOptions?
 
@@ -74,7 +72,7 @@ public class Peer {
     public var dataConnections: [PeerConnection] {
         get {
             if self.connectionStore.dataConnections().count != self.connectionStore.findConnections(connectionType: .data).count {
-                var debug = 0
+                print("Something went wrong? number of data connections were mismatched!")
             }
             return self.connectionStore.findConnections(connectionType: .data)
         }
@@ -82,8 +80,6 @@ public class Peer {
 
 
     public init(options: PeerOptions?, delegate: PeerDelegate?) {
-
-        self.token = Utility.randString(maxLength: 34)
 
         self.isDestroyed = false
         self.isDisconnected = false
@@ -96,105 +92,49 @@ public class Peer {
     }
     
     deinit {
-        self.keepAliveTimer?.invalidate()
-        self.webSocket?.close({ (reason) in
-            print("Socket closed reason: \(String(describing: reason))")
+        self.mqttClient?.disconnect( { (error) in
+            print("mqttClient disconnected error: \(String(describing: error))")
         })
-        
     }
 
     // this method is added to keep something outside constructor
 
     public func open(_ peerId: String?, completion: @escaping (Result<String, Error>) -> Void) {
-        self.setupSocket()
-        if let peerId = peerId {
-            self.initialize(peerId: peerId, completion: completion)
-        }
-        else {
-            self.retrieveId({ [weak self] (result) -> Void in
-
+        self.setupClient()
+        self.initialize(peerId: peerId) { [weak self] (result) in
+            DispatchQueue.main.async {
                 switch result {
-                case let .success(peerId):
-                    DispatchQueue.main.async {
-                        self?.initialize(peerId: peerId, completion: completion)
-                    }
-
-                case .failure(_):
-                    return
+                case let .success(clientId):
+                    self?.peerId = clientId
+                    self?.isOpen = true
+                default:
+                    break
                 }
 
-            })
+                completion(result)
+            }
         }
     }
-    
-    func setupSocket() {
 
+    func setupClient() {
         guard let options = self.options else {
             return
         }
 
-        self.webSocket = PeerSocket(options: options, delegate: self)
+        self.mqttClient = MqttClient(options: options, delegate: self)
     }
-    
-    func retrieveId(_ completion: @escaping (Result<String, Error>) -> Void) {
 
-        guard let options = self.options else {
+    func initialize(peerId: String?, completion: @escaping (Result<String, Error>) -> Void) {
+
+        guard let mqttClientOptions = self.options?.mqttClientOptions else {
             completion(.failure(PeerError.invalidOptions))
             return
         }
-        var urlStr = options.httpUrl + "/id"
 
-        
-        let now = Date()
-        let dateString = "\(now.timeIntervalSince1970)"
-        let mathRandomString = "\(CGFloat(Float(arc4random()) / Float(UINT32_MAX)))"
-        let queryString = "?ts=" + dateString + mathRandomString
-        urlStr += queryString
-        
-        print("urlStr: \(urlStr)")
-        
-        guard let url = URL(string: urlStr) else {
-            completion(.failure(PeerError.invalidUrl))
-            return
-        }
-        
-        let request = URLRequest(url: url)
-
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        let task = session.dataTask(with: request) { (data, response, error) in
-            guard error == nil  else {
-                completion(.failure(PeerError.requestFailed))
-                return
-            }
-
-            guard let d = data else {
-                completion(.failure(PeerError.requestFailed))
-                return
-            }
-
-            guard let peerId = String(data: d, encoding: String.Encoding.utf8) else {
-                completion(.failure(PeerError.requestFailed))
-                return
-            }
-
-            completion(.success(peerId))
-        }
-        task.resume()
-    }
-    
-    func initialize(peerId: String, completion: @escaping (Result<String, Error>) -> Void) {
-        self.peerId = peerId
-        self.webSocket?.open(peerId: peerId, token: self.token, completion: { (result) in
-            print("socket opened")
-            DispatchQueue.main.async {
-                completion(result)
-            }
+        self.mqttClient?.connect(clientId: peerId, options: mqttClientOptions, completion: { (result) in
+            print("client connected")
+            completion(result)
         })
-
-        if let interval = self.options?.keepAliveTimerInterval, interval > 0 {
-            self.keepAliveTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(self.onTimeout(timer:)), userInfo: nil, repeats: true)
-        }
     }
 
     /**
@@ -230,8 +170,7 @@ public class Peer {
 
             switch result {
             case let .success(message):
-                let data = try? JSONSerialization.data(withJSONObject: message, options: [])
-                self?.webSocket?.send(data: data)
+                self?.mqttClient?.publish(to: peerId, topic: .offer, dictionary: message)
 
                 completion(.success(connection))
 
@@ -268,8 +207,7 @@ public class Peer {
             
             switch result {
             case let .success(message):
-                let data = try? JSONSerialization.data(withJSONObject: message, options: [])
-                self?.webSocket?.send(data: data)
+                self?.mqttClient?.publish(to: peerId, topic: .offer, dictionary: message)
 
                 completion(.success(connection))
 
@@ -287,8 +225,8 @@ public class Peer {
 
             switch result {
             case let .success(message):
-                let data = try? JSONSerialization.data(withJSONObject: message, options: [])
-                self?.webSocket?.send(data: data)
+                self?.mqttClient?.publish(to: mediaConnection.peerId, topic: .answer, dictionary: message)
+
                 completion(nil)
 
             case let .failure(error):
@@ -303,8 +241,8 @@ public class Peer {
 
             switch result {
             case let .success(message):
-                let data = try? JSONSerialization.data(withJSONObject: message, options: [])
-                self?.webSocket?.send(data: data)
+                self?.mqttClient?.publish(to: dataConnection.peerId, topic: .answer, dictionary: message)
+                
                 completion(nil)
 
             case let .failure(error):
@@ -450,12 +388,13 @@ public class Peer {
         if !self.isDisconnected {
             self.isDisconnected = true
             self.isOpen = false
-            if let webSocket = self.webSocket {
-                webSocket.close(completion)
+
+            if let mqttClient = self.mqttClient {
+                mqttClient.disconnect(completion)
             }
             else {
                 // Socket does not exist!
-                completion(PeerError.socketClosed)
+                completion(PeerError.mqttClientDisconnected)
             }
             
             //self.emit('disconnected', self.id);
@@ -474,7 +413,7 @@ public class Peer {
         if self.isDisconnected && !self.isDestroyed {
             print("Attempting reconnection to server with ID \(self.lastServerId ?? "")")
             self.isDisconnected = false
-            self.setupSocket()
+            self.setupClient()
             if let lastServerId = self.lastServerId {
                 self.initialize(peerId: lastServerId, completion: completion)
             }
@@ -496,88 +435,8 @@ public class Peer {
         }
     }
 
-    /**
-     * Get a list of available peer IDs. If you're running your own server, you'll
-     * want to set allow_discovery: true in the PeerServer options. If you're using
-     * the cloud server, email team@peerjs.com to get the functionality enabled for
-     * your key.
-     */
     public func listAllPeers(_ completion: @escaping (Result<[String], Error>) -> Void) {
-
-        guard let options = self.options else {
-            completion(.failure(PeerError.invalidOptions))
-            return
-        }
-        let urlStr = options.httpUrl + "/peers"
-        print("API URL: \(urlStr)")
-        
-
-        guard let url = URL(string: urlStr) else {
-            completion(.failure(PeerError.invalidUrl))
-            return
-        }
-        
-        let request = URLRequest(url: url)
-
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        let task = session.dataTask(with: request) { (data, response, error) in
-            if error == nil, let d = data {
-                do {
-                    if let peerIds = try JSONSerialization.jsonObject(with: d, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String] {
-                        completion(.success(peerIds))
-                    }
-                    else {
-                        completion(.failure(PeerError.invalidJsonObject))
-                    }
-                } catch {
-                    print("NSJSONSerialization.JSONObjectWithData failed")
-                    completion(.failure(PeerError.invalidJsonObject))
-                }
-            }
-            else {
-                completion(.failure(PeerError.requestFailed))
-            }
-        }
-        task.resume()
-    }
-
-    // MARK: data channel utilities
-
-    
-    // MARK: timer handler
-    
-    @objc func onTimeout(timer: Timer) {
-        
-        var socketClosed = false
-        
-        if let ws = self.webSocket {
-            if ws.isDisconnected {
-                socketClosed = true
-            }
-        }
-        else {
-            socketClosed = true
-        }
-        
-        if socketClosed {
-            print("time out with socket closed")
-            self.keepAliveTimer?.invalidate()
-        }
-        else {
-            print("ping to server")
-            self.pingToServer()
-        }
+        completion(.success(self.mqttClient?.clientIds ?? []))
     }
     
-    // MARK: private method
-    
-    // this method is needed for Heroku to prevent connection from closing with time out
-    func pingToServer() {
-        let message: [String: Any] = [
-            "type": "ping"
-        ]
-        let data = try? JSONSerialization.data(withJSONObject: message, options: [])
-        self.webSocket?.send(data: data)
-    }
 }
